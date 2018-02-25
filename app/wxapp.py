@@ -60,7 +60,7 @@ def create_token(request):
     }
     token = jwt.encode(payload, 'secret', algorithm='HS256')
     # save token openid session_key
-    sql_body = UserMXModel(id=token, openid=user_info['openId'],
+    sql_body = UserWXModel(id=token, openid=account['openId'],
                     session_key=session_key,created_time=datetime.now(),
                     updated_time=datetime.now())
     db.session.add(sql_body)

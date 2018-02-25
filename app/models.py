@@ -7,6 +7,8 @@ class User(db.Model):
     country = db.Column(db.String(128), index = True, unique = True)
     province = db.Column(db.String(128), index = True, unique = True)
     city = db.Column(db.String(128), index = True, unique = True)
+    created_time = db.Column(db.DateTime)
+    updated_time = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<User id %r, User name %r>' % (self.id, self.nickname)
@@ -20,8 +22,6 @@ class Address(db.Model):
     consignee_address = db.Column(db.String(1024), index = True)
     consignee_phone = db.Column(db.String(64), index = True)
     consignee_name = db.Column(db.String(128), index = True)
-    created_time = db.Column(db.DateTime)
-    updated_time = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<Address %r, User id %r>' %(self.consignee_address, self.openid)
