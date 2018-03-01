@@ -19,12 +19,15 @@ class User(db.Model):
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     openid = db.Column(db.String(128), index = True)
-    consignee_address = db.Column(db.String(1024), index = True)
-    consignee_phone = db.Column(db.String(64), index = True)
-    consignee_name = db.Column(db.String(128), index = True)
+    province = db.Column(db.String(1024), index = True)
+    city = db.Column(db.String(1024), index = True)
+    area = db.Column(db.String(1024), index = True)
+    address = db.Column(db.String(1024), index = True)
+    tel = db.Column(db.String(64), index = True)
+    name = db.Column(db.String(128), index = True)
 
     def __repr__(self):
-        return '<Address %r, User id %r>' %(self.consignee_address, self.openid)
+        return '<Address %r, User id %r>' %(self.city, self.openid)
 
     def to_dict(self):
         return {c.name: getattr(self, c.name, None) for c in self.__table__.columns}
@@ -37,7 +40,7 @@ class UserWX(db.Model):
     updated_time = db.Column(db.DateTime)
 
     def __repr__(self):
-        return '<UserWX id %r>' %(self.id)
+        return '<UserWX id %r>' %(self.id)
 
     def to_dict(self):
         return {c.name: getattr(self, c.name, None) for c in self.__table__.columns}

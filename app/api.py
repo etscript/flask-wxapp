@@ -87,9 +87,10 @@ class Address(Resource):
 
 class Addresses(Resource):
     def get(self, openid):
-        address = AddressModel.query.filter_by(openid=openid)
-        retaddress = [u.to_dict() for u in address]
-        return {'address': retaddress}, 200
+        #address = AddressModel.query.filter_by(openid=openid)
+        #retaddress = [u.to_dict() for u in address]
+        #return {'address': retaddress}, 200
+        return {'address': openid}, 200
 
 class AddressList(Resource):
     def __init__(self):
