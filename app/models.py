@@ -2,11 +2,12 @@ from app import db
 from datetime import datetime
 class User(db.Model):
     id = db.Column(db.String(128), primary_key = True)
-    nickname = db.Column(db.String(128), index = True, unique = True)
-    gender = db.Column(db.String(128), index = True, unique = True)
-    country = db.Column(db.String(128), index = True, unique = True)
-    province = db.Column(db.String(128), index = True, unique = True)
-    city = db.Column(db.String(128), index = True, unique = True)
+    nickname = db.Column(db.String(128), index = True)
+    gender = db.Column(db.String(128), index = True)
+    country = db.Column(db.String(128), index = True)
+    #province = db.Column(db.String(128), index = True, unique = True)
+    province = db.Column(db.String(128), index = True)
+    city = db.Column(db.String(128), index = True)
     created_time = db.Column(db.DateTime)
     updated_time = db.Column(db.DateTime)
 
