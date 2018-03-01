@@ -1,5 +1,5 @@
 from app import db
-
+from datetime import datetime
 class User(db.Model):
     id = db.Column(db.String(128), primary_key = True)
     nickname = db.Column(db.String(128), index = True, unique = True)
@@ -25,12 +25,16 @@ class Address(db.Model):
     address = db.Column(db.String(1024), index = True)
     tel = db.Column(db.String(64), index = True)
     name = db.Column(db.String(128), index = True)
+    created_time = db.Column(db.DateTime)
+    updated_time = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<Address %r, User id %r>' %(self.city, self.openid)
 
     def to_dict(self):
-        return {c.name: getattr(self, c.name, None) for c in self.__table__.columns}
+        return {c.name: getattr(self, c.name, None) 
+            if not isinstance(getattr(self, c.name, None), datetime) 
+            else None for c in self.__table__.columns}
 
 class UserWX(db.Model):
     id = db.Column(db.String(1024), primary_key = True)

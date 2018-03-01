@@ -4,6 +4,7 @@ from flask_restful import reqparse, Resource
 from models import User as UserModel
 from models import Address as AddressModel
 from wxapp import create_token
+from datetime import datetime
 
 # Todo
 # shows a single todo item and lets you delete a todo item
@@ -32,7 +33,7 @@ class User(Resource):
 class UserList(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('user', type=dict, required = True,
+        self.parser.add_argument('user', type=str, required = True,
                                     help='user information is missing')
         super(UserList, self).__init__()
 
@@ -45,8 +46,10 @@ class UserList(Resource):
     def post(self):
         args = self.parser.parse_args()
         user = args['user']
-        sql_body = models.User(id=user['id'], nickname=user['nickname'], 
-                    default_region=user['default_region'])
+        sql_body = models.User(id=user['openId'], nickname=user['nickName'], 
+                    province=user['province'],country=user['country'],
+                    city=user['city'],gender=user['gender'],
+                    created_time=datetime.now(), updated_time=datetime.now())
         db.session.add(sql_body)
         db.session.commit()
         return {'user': user}, 201
@@ -95,7 +98,19 @@ class Addresses(Resource):
 class AddressList(Resource):
     def __init__(self):
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('address', type=dict, required = True,
+        self.parser.add_argument('mid', type=str, required = True,
+                                    help='mid information is missing')
+        self.parser.add_argument('name', type=str, required = True,
+                                    help='name information is missing')
+        self.parser.add_argument('tel', type=str, required = True,
+                                    help='tel information is missing')
+        self.parser.add_argument('province', type=str, required = True,
+                                    help='province information is missing')
+        self.parser.add_argument('city', type=str, required = True,
+                                    help='city information is missing')
+        self.parser.add_argument('area', type=str, required = True,
+                                    help='area information is missing')
+        self.parser.add_argument('address', type=str, required = True,
                                     help='address information is missing')
         super(AddressList, self).__init__()
 
@@ -107,11 +122,16 @@ class AddressList(Resource):
 
     def post(self):
         args = self.parser.parse_args()
-        address = args['address']
-        sql_body = models.Address(openid=address['openid'], 
-                    consignee_address=address['consignee_address'], 
-                    consignee_phone=address['consignee_phone'],
-                    consignee_name=address['consignee_name'])
+        #address = args['address']
+        sql_body = models.Address(openid=address['mid'], 
+                    name=address['name'], 
+                    tel=address['tel'],
+                    province=address['province'], 
+                    city=address['city'], 
+                    area=address['area'],
+                    address=address['address'],
+                    created_time=datetime.now(), 
+                    updated_time=datetime.now())
         db.session.add(sql_body)
         db.session.commit()
         return {'address': address}, 201
@@ -149,8 +169,8 @@ class AuthToken(Resource):
 
 api.add_resource(UserList, '/api/users')
 api.add_resource(User, '/api/user/<string:openid>')
-api.add_resource(AddressList, '/api/addresses')
-api.add_resource(Addresses, '/api/addresses/<string:openid>')
-api.add_resource(Address, '/api/address/<int:id>')
+#api.add_resource(AddressList, '/api/addresses')
+#api.add_resource(Addresses, '/api/addresses/<string:openid>')
+#api.add_resource(Address, '/api/address/<int:id>')
 
 api.add_resource(AuthToken, '/api/auth/token')

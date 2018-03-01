@@ -1,7 +1,8 @@
 from flask import render_template, jsonify, abort, make_response, request
 from app import app
 from .forms import LoginForm
-import api
+import user_api
+import address_api
 
 # 404
 @app.errorhandler(404)
